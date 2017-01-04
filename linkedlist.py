@@ -92,7 +92,7 @@ class LinkedList():
         self.insert(index, value)
 
 
-    def insert(self, index, node):
+    def insert(self, index, value):
         index = index - 1
         node = Node(value)
         target = self.look(index)
