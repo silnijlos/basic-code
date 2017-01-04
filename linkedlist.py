@@ -1,15 +1,30 @@
 
 class Node():
-    def __init__(self, value, next_node=False, last_node=False):
+    def __init__(self, value, next_node=False, prev_node=False):
         self.value = value
         self.nextNode = next_node
-        self.lastNode = last_node
+        self.prevNode = prev_node
+
     def next(self):
         return self.nextNode
+
     def isLast(self):
         if not self.nextNode:
             return True
         return False
+
+
+    def isFirst(self):
+        if not self.prevNode:
+            return True
+        return False
+
+    def prev(self):
+        return self.prevNode
+    
+    def __repr__(self):
+        return str(self.value)
+
     def printValue(self):
         print(str(self.value)+' ', end='', flush=True)
         if self.nextNode:
@@ -37,32 +52,71 @@ class LinkedList():
     def __init__(self, firstNode):
         firstNode = Node(firstNode)
         self.firstNode = firstNode
-    def addFirst(self, node):
-        node = Node(node)
+
+    def addFirst(self, value):
+        node = Node(value)
         self.firstNode.lastNode = node
         node.nextNode = self.firstNode
         self.firstNode = node
-        self.printList()
-    def append(self, node):
-        node = Node(node)
-        lastbefore = self.firstNode.returnLast()
-        lastbefore.nextNode = node
-        node.lastNode = lastbefore
-        self.printList()
+
+    def append(self, value):
+        node = Node(value)
+        last = self.look(self.getLength()-1)
+        last.nextNode = node
+        node.prevNode = last
+
     def removeLast(self):
-        self.firstNode.returnLast().lastNode.nextNode = None
-        self.firstNode.returnLast().lastNode = None
-        self.printList()
+        last = self.look(self.getLength()-1)
+        beforelast = self.look(self.getLength()-2)
+        beforelast.nextNode = None
+        last.prevNode = None
+
     def removeFirst(self):
         n = self.firstNode.next()
         self.firstNode.nextNode = None
         self.firstNode = n
-        self.printList()
-    def printList(self):
-        self.firstNode.printValue()
-    def returnList(self):
-        self.firstNode.returnValue
+    
+    def __repr__(self):
+        s = ''
+        cur = self.firstNode
+        s += str(cur.value)+' '
+        while not cur.isLast():
+            cur = cur.nextNode
+            s += str(cur.value)+' '
+        return s.strip()
+
+
     def look(self, index):
+        cur = self.firstNode
+        i = 0
+        while index > i:
+            cur = cur.nextNode
+            i += 1
+        return cur
+
+    def getLength(self):
+        cur = self.firstNode
+        i = 1
+        while not cur.isLast():
+            i += 1
+            cur = cur.nextNode
+        return i
+
+    def sortedInsert(self, value):
+        cur = self.firstNode
+        if cur.value > value:
+            self.addFirst(value)
+            return True
+        index = 0
+        while not cur.isLast() and cur.value < value:
+            index += 1
+            cur = cur.nextNode
+        print(index)
+        self.insert(index, value)
+
+    def insert(self, index, value):
+        if index==0:
+            self.addFirst(value)
         return self.firstNode.getNextAfter(index).value
     def get_length(self):
         return self.firstNode.getLength(1)
@@ -78,11 +132,10 @@ class LinkedList():
         return False
     def insert(self, index, node):
         index = index - 1
-        node = Node(node)
-        target = self.firstNode.getNextAfter(index)
+        node = Node(value)
+        target = self.look(index)
         after = target.nextNode
         node.lastNode = target
         node.nextNode = after
         target.nextNode = node
         after.lastNode = node
-        self.printList()
