@@ -25,29 +25,6 @@ class Node():
     def __repr__(self):
         return str(self.value)
 
-    def printValue(self):
-        print(str(self.value)+' ', end='', flush=True)
-        if self.nextNode:
-            self.nextNode.printValue()
-    def returnLast(self):
-        if self.isLast():
-            return self
-        return self.nextNode.returnLast()
-    def returnValue(self, string):
-        if self.isLast():
-            return string+'%s'%self.value
-        return self.nextNode.returnValue(string+'%s '%self.value)
-    def getLength(self, counter):
-        if self.isLast:
-            return counter
-        return self.nextNode.getLength(counter+1)
-    def last(self):
-        return self.lastNode
-    def getNextAfter(self, index):
-        if index==0:
-            return self
-        return self.nextNode.getNextAfter(index-1)
-
 class LinkedList():
     def __init__(self, firstNode):
         firstNode = Node(firstNode)
@@ -114,22 +91,7 @@ class LinkedList():
         print(index)
         self.insert(index, value)
 
-    def insert(self, index, value):
-        if index==0:
-            self.addFirst(value)
-        return self.firstNode.getNextAfter(index).value
-    def get_length(self):
-        return self.firstNode.getLength(1)
-    def sorted_insert(self, node):
-        for index in range(0, self.get_length()):
-            if self.look(index) > node:
-                if index == 0:
-                    self.addFirst(node)
-                    return True
-                self.insert(index, node)
-                return True
-        self.addLast(node)
-        return False
+
     def insert(self, index, node):
         index = index - 1
         node = Node(value)
