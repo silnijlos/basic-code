@@ -1,16 +1,3 @@
-#Task:
-
-#1. Implement class Node (representing a node of the linked list) with following methods 
-#(assume that the data in every node is an integer value):
-#	1. get value
-#	2. get next node
-#	3. get previous node
-#2. Implement class LinkedList with following methods:
-#	1. print list
-#	2. add first element
-#	3. add last element
-#   4. remove first element
-#	5. remove last element
 
 class Node():
     def __init__(self, value, next_node=False, last_node=False):
