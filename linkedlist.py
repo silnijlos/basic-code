@@ -22,6 +22,10 @@ class Node():
         if self.isLast():
             return string+'%s'%self.value
         return self.nextNode.returnValue(string+'%s '%self.value)
+    def getLength(self, counter):
+        if self.isLast:
+            return counter
+        return self.nextNode.getLength(counter+1)
     def last(self):
         return self.lastNode
     def getNextAfter(self, index):
@@ -61,13 +65,7 @@ class LinkedList():
     def look(self, index):
         return self.firstNode.getNextAfter(index).value
     def get_length(self):
-        counter = 0
-        while 1:
-            try:
-                self.look(counter)
-                counter += 1
-            except:
-                return counter
+        return self.firstNode.getLength(1)
     def sorted_insert(self, node):
         for index in range(0, self.get_length()):
             if self.look(index) > node:
