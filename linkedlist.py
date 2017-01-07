@@ -26,24 +26,28 @@ class Node():
         return str(self.value)
 
 class LinkedList():
-    def __init__(self, nodes):
-        firstNode = Node(nodes[0])
+    def __init__(self, firstNode=None):
+        if firstNode:
+            firstNode = Node(firstNode)
         self.firstNode = firstNode
-        del nodes[0]
-        for value in nodes:
-            self.append(value)
 
     def addFirst(self, value):
         node = Node(value)
-        self.firstNode.lastNode = node
-        node.nextNode = self.firstNode
+        if self.firstNode:
+            self.firstNode.lastNode = node
+            node.nextNode = self.firstNode
+            self.firstNode = node
+            return True
         self.firstNode = node
 
     def append(self, value):
         node = Node(value)
-        last = self.look(self.getLength()-1)
-        last.nextNode = node
-        node.prevNode = last
+        if self.firstNode:
+            last = self.look(self.getLength()-1)
+            last.nextNode = node
+            node.prevNode = last
+            return True
+        self.firstNode = node
 
     def removeLast(self):
         last = self.look(self.getLength()-1)
@@ -58,11 +62,12 @@ class LinkedList():
     
     def __repr__(self):
         s = ''
-        cur = self.firstNode
-        s += str(cur.value)+' '
-        while not cur.isLast():
-            cur = cur.nextNode
+        if self.firstNode:
+            cur = self.firstNode
             s += str(cur.value)+' '
+            while not cur.isLast():
+                cur = cur.nextNode
+                s += str(cur.value)+' '
         return s.strip()
 
 
@@ -77,6 +82,8 @@ class LinkedList():
     def getLength(self):
         cur = self.firstNode
         i = 1
+        if not cur:
+            return 0
         while not cur.isLast():
             i += 1
             cur = cur.nextNode
@@ -91,7 +98,6 @@ class LinkedList():
         while not cur.isLast() and cur.value < value:
             index += 1
             cur = cur.nextNode
-        print(index)
         self.insert(index, value)
 
 
@@ -102,19 +108,28 @@ class LinkedList():
         index = index - 1
         node = Node(value)
         target = self.look(index)
-        try:
+        after = False
+        if not target.isLast():
             after = target.nextNode
-        except:
-            pass
         node.lastNode = target
-        node.nextNode = after
+        if after:
+            node.nextNode = after
         target.nextNode = node
-        try:
+        if after:
             after.lastNode = node
-        except:
-            pass
+
     def split(self):
-        length = self.getLength
-        cur = self.firstNode
-        count = 0
-        
+        length = self.getLength()
+        athalf = self.look(length//2-1)
+        afterhalf = athalf.nextNode
+        athalf.nextNode = None
+        afterhalf.lastNode = None
+        newlist = LinkedList(0)
+        newlist.firstNode = afterhalf
+        return newlist
+    def __len__(self):
+        return self.getLength()
+    def __iter(self):
+        pass
+    def __getItem__(self, index):
+        return self.look(index)
