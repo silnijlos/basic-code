@@ -18,23 +18,15 @@ class Node:
 
     def __repr__(self):
         if self.parent:
-            return [self.value, self.parent.value, self.depth]
+            return '{%s, %s, %s}' %(self.value, self.parent.value, self.depth)
         else:
-            return [self.value, self.parent, self.depth]
+            return '{%s, %s, %s}' %(self.value, self.parent, self.depth)
 
     def __int__(self):
         return self.value
 
     def __str__(self):
         return str(self.value)
-
-    def recursive_printing(self, output=''):
-        if self.leftNode:
-            output = self.leftNode.recursive_printing(output)
-        output += str(self.value)+' '
-        if self.rightNode:
-            output = self.rightNode.recursive_printing(output)
-        return output
 
 
 class BST:
