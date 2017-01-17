@@ -54,12 +54,12 @@ class BST:
                     cur = cur.leftNode
                     continue
                 break
-
+        cur.depth += 1
         if value > cur.value:
-            new = Node(value, cur, None)
+            new = Node(value, cur, 0)
             cur.rightNode = new
         else:
-            new = Node(value, cur, None)
+            new = Node(value, cur, 0)
             cur.leftNode = new
 
     def print_inorder(self):
@@ -70,10 +70,10 @@ class BST:
             node=self.firstNode
         if node.leftNode:
             output = self.recursive_printing(node.leftNode, output)
-        output += str(node.value) + ' '
+        output += node.__repr__() + ' '
         if node.rightNode:
             output = self.recursive_printing(node.rightNode, output)
-        return output
+        return output.strip()
 
 t = BST(100)
 t.add(50)
